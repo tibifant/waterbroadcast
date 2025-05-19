@@ -2,33 +2,11 @@
 
 int sensorPin = 34;
 int pumpPin = 19;
-
+bool watered = false;
 
 int sensorValue = 0;
 
-void setup() {
-
-  Serial.begin(9600);
-
-  pinMode(sensorPin, INPUT);
-  pinMode(pumpPin, OUTPUT);
-  digitalWrite(LED, LOW);
-
-xtaskCreatePinnedToCore(
-    taskPump,   /* Function to implement the task */
-    "TaskPump", /* Name of the task */
-    10000,      /* Stack size in bytes */
-    NULL,       /* Task input parameter */
-    1,          /* Priority of the task */
-    NULL,       /* Task handle. */
-    0);         /* Core where the task should run */
-
-  Serial.println("Setup complete");
-}
-
 void taskPump(void *parameter) {
-
-
   for (;;) {
     sensorValue = analogRead(sensorPin);
 
@@ -36,14 +14,20 @@ void taskPump(void *parameter) {
     Serial.println(sensorValue);
 
     if (sensorValue > 500) {
-
-      digitalWrite(pumpPin, HIGH)
-      vTaskDelay(100000 / portTICK_PERIOD_MS);
-      digitalWrite(pumpPin, LOW)
+      if (watered == false) {
+        digitalWrite(pumpPin, HIGH);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        digitalWrite(pumpPin, LOW);
+        watered = true;
+      }
 
     } else {
 
       digitalWrite(pumpPin, LOW);
+    }
+
+    if (sensorValue < 200) {
+      watered = false;
     }
 
 
@@ -52,7 +36,22 @@ void taskPump(void *parameter) {
     Serial.println("Task running");
     vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
+
+void setup() {
+
+
+  Serial.begin(9600);
+
+  pinMode(sensorPin, INPUT);
+  pinMode(pumpPin, OUTPUT);
+  digitalWrite(pumpPin, LOW);
+
+
+  xTaskCreate( taskPump, "Pump", 1024, NULL, 1, NULL) ;  /* Core where the task should run */
+
+  Serial.println("Setup complete");
 }
+
 
 void loop() {
 
