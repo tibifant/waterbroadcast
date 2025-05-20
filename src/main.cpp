@@ -1,4 +1,12 @@
 #include <Arduino.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+const char* ssid = "CoCoLabor2";
+const char* password = "cocolabor12345";
+const char* mqtt_server = "broker.hivemq.com";
+WiFiClient espClient;
+PubSubClient client(espClient);
 
 int sensorPin = 34;
 int pumpPin = 19;
@@ -6,6 +14,35 @@ bool watered = false;
 
 int sensorValue = 0;
 
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message arrived on topic: ");
+}
+void connectToWLAN() {
+
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+
+
+  client.setServer(mqtt_server, 1883);
+  client.connect("Lina");
+  client.setCallback(callback);
+
+  client.subscribe("LEDein");
+}
 void taskPump(void *parameter) {
   for (;;) {
     sensorValue = analogRead(sensorPin);
