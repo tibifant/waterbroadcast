@@ -16,6 +16,9 @@ int sensorValue = 0;
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived on topic: ");
+
+  digitalWrite(pumpPin, HIGH);
+
 }
 void connectToWLAN() {
 
@@ -43,7 +46,7 @@ void connectToWLAN() {
 
   client.subscribe("LEDein");
 }
-void taskPump(void *parameter) {
+/*void taskPump(void *parameter) {
   for (;;) {
     sensorValue = analogRead(sensorPin);
 
@@ -72,11 +75,12 @@ void taskPump(void *parameter) {
 
     Serial.println("Task running");
     vTaskDelay(1000 / portTICK_PERIOD_MS);
-  }
+  }*/
 
 void setup() {
 
 
+  /*
   Serial.begin(9600);
 
   pinMode(sensorPin, INPUT);
@@ -84,10 +88,11 @@ void setup() {
   digitalWrite(pumpPin, LOW);
 
 
-  xTaskCreate( taskPump, "Pump", 1024, NULL, 1, NULL) ;  /* Core where the task should run */
+  xTaskCreate( taskPump, "Pump", 1024, NULL, 1, NULL) ;  /* Core where the task should run #1#
 
   Serial.println("Setup complete");
 }
+*/
 
 
 void loop() {
