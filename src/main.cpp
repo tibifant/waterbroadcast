@@ -67,18 +67,23 @@ void taskPump(void *parameter) {
   }
 }
 
-void reconnect() {
-  if (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
-    if (client.connect("Emma")) {
-      Serial.println("connected");
-      client.subscribe("PumpOn");
-    } else {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      delay(5000);
+void clientLoop(void * parameter) {
+  for (;;)  {
+    while (!client.connected()) {
+      Serial.print("Attempting MQTT connection...");
+      if (client.connect("Emma")) {
+        Serial.println("connected");
+        client.subscribe("PumpOn");
+      } else {
+        Serial.print("failed, rc=");
+        Serial.print(client.state());
+        Serial.println(" try again in 5 seconds");
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
+      }
     }
+
+    client.loop();
+    vTaskDelay(100 / portTICK_PERIOD_MS);
   }
 }
 
@@ -94,17 +99,13 @@ void setup() {
 
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-  //client.connect("Emma");
-  //client.subscribe("PumpOn");
 
-  xTaskCreate( taskPump, "Pump", 1024, NULL, 1, NULL);  // Core where the task should run #1#
+  xTaskCreate( taskPump, "Pump", 2048, NULL, 1, NULL);
+  xTaskCreatePinnedToCore(clientLoop, "Client loop",8192,NULL,1,NULL, CONFIG_ARDUINO_RUNNING_CORE);
 
   Serial.println("Setup complete");
 }
 void loop(){
-  if (!client.connected()) {
-    reconnect();
-  }
-  client.loop();
+
 }
 
