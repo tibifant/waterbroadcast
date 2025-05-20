@@ -16,10 +16,10 @@ int sensorValue = 0;
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived on topic: ");
-
   digitalWrite(pumpPin, HIGH);
 
 }
+
 void connectToWLAN() {
 
   Serial.println();
@@ -36,15 +36,15 @@ void connectToWLAN() {
 
   Serial.println("");
   Serial.println("WiFi connected");
-  Serial.println("IP address: ");
+  Serial.println("IP address:");
   Serial.println(WiFi.localIP());
 
 
   client.setServer(mqtt_server, 1883);
-  client.connect("Lina");
+  client.connect("Emma");
   client.setCallback(callback);
 
-  client.subscribe("LEDein");
+  client.subscribe("PumpOn");
 }
 /*void taskPump(void *parameter) {
   for (;;) {
