@@ -82,6 +82,7 @@ void setup() {
   Serial.begin(9600);
 
   connectToWLAN();
+  client.setCallback(callback);
 
   pinMode(sensorPin, INPUT);
   pinMode(pumpPin, OUTPUT);
