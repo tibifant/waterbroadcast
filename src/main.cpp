@@ -78,14 +78,17 @@ void connectToWLAN() {
   }*/
 
 void setup() {
-
-
-  /*
   Serial.begin(9600);
+
+  connectToWLAN();
 
   pinMode(sensorPin, INPUT);
   pinMode(pumpPin, OUTPUT);
+
+
+  /*
   digitalWrite(pumpPin, LOW);
+
 
 
   xTaskCreate( taskPump, "Pump", 1024, NULL, 1, NULL) ;  /* Core where the task should run #1#
@@ -93,9 +96,7 @@ void setup() {
   Serial.println("Setup complete");
 }
 */
-
-
-void loop() {
-
-
 }
+  void loop(){
+  }
+
