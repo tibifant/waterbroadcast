@@ -12,7 +12,7 @@ int sensorPin = 34;
 int pumpPin = 19;
 bool watered = false;
 
-//test
+
 int sensorValue = 0;
 
 void callback(char* topic, byte* payload, unsigned int length) {
