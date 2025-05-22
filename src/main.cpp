@@ -76,7 +76,7 @@ void taskPumpPublish(void *parameter) {
 
     if (sensorValue > 500) {
       if (watered == false) {
-        client.loop();
+
         client.publish("PumpOn","sensorValue");
         Serial.println("SensorValue: " + String(sensorValue));
         Serial.println("Pump is ON");
