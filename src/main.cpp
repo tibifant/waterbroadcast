@@ -15,9 +15,6 @@ int pumpPin = 19;
 bool watered = false;
 bool triggerPump = false;
 
-
-int sensorValue = 0;
-
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived on topic: ");
 
@@ -48,7 +45,7 @@ void connectToWLAN() {
 
 void taskPump(void *parameter) {
   for (;;) {
-    sensorValue = analogRead(sensorPin);
+    uint16_t sensorValue = analogRead(sensorPin);
 
     if (triggerPump) {
           digitalWrite(pumpPin, HIGH);
@@ -69,7 +66,7 @@ void taskPump(void *parameter) {
 
 void taskPumpPublish(void *parameter) {
   for (;;) {
-    sensorValue = analogRead(sensorPin);
+    uint16_t sensorValue = analogRead(sensorPin);
 
     //Serial.print("Soil Moisture Value: ");
     //Serial.println(sensorValue);
