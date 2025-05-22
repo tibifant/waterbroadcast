@@ -46,7 +46,7 @@ void connectToWLAN() {
   Serial.println(WiFi.localIP());
 }
 
-void taskPump(void *parameter) {
+void taskPumpClient(void *parameter) {
   for (;;) {
     sensorValue = analogRead(sensorPin);
 
@@ -65,6 +65,32 @@ void taskPump(void *parameter) {
         digitalWrite(pumpPin, LOW);
       }
   }
+}
+
+void taskPumpPublish(void *parameter) {
+  for (;;) {
+    sensorValue = analogRead(sensorPin);
+
+    Serial.print("Soil Moisture Value: ");
+    Serial.println(sensorValue);
+
+    if (sensorValue > 500) {
+      if (watered == false) {
+        client.loop();
+        client.publish("PumpOn","sensorValue");
+        Serial.println("SensorValue: " + String(sensorValue));
+        Serial.println("Pump is ON");
+        watered = true;
+      }
+    }
+
+    if (sensorValue < 200) {
+      watered = false;
+    }
+  }
+
+  Serial.println("Task running");
+  vTaskDelay(1000 / portTICK_PERIOD_MS);
 }
 
 void clientLoop(void * parameter) {
@@ -100,7 +126,8 @@ void setup() {
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
-  xTaskCreate( taskPump, "Pump", 2048, NULL, 1, NULL);
+  xTaskCreate( taskPumpClient, "Pump", 2048, NULL, 1, NULL);
+  xTaskCreate(taskPumpPublish,"PumpPublish", 2048, NULL, 1, NULL);
   xTaskCreatePinnedToCore(clientLoop, "Client loop",8192,NULL,1,NULL, CONFIG_ARDUINO_RUNNING_CORE);
 
   Serial.println("Setup complete");
