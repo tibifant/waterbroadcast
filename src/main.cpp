@@ -46,7 +46,7 @@ void connectToWLAN() {
   Serial.println(WiFi.localIP());
 }
 
-void taskPumpClient(void *parameter) {
+void taskPump(void *parameter) {
   for (;;) {
     sensorValue = analogRead(sensorPin);
 
@@ -99,7 +99,7 @@ void clientLoop(void * parameter) {
       Serial.print("Attempting MQTT connection...");
       if (client.connect("Emma")) {
         Serial.println("connected");
-        client.subscribe("PumpOn");
+        client.subscribe("PumpOn2");
       } else {
         Serial.print("failed, rc=");
         Serial.print(client.state());
@@ -126,7 +126,7 @@ void setup() {
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
-  xTaskCreate( taskPumpClient, "Pump", 2048, NULL, 1, NULL);
+  xTaskCreate( taskPump, "Pump", 2048, NULL, 1, NULL);
   xTaskCreate(taskPumpPublish,"PumpPublish", 2048, NULL, 1, NULL);
   xTaskCreatePinnedToCore(clientLoop, "Client loop",8192,NULL,1,NULL, CONFIG_ARDUINO_RUNNING_CORE);
 
