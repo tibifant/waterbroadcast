@@ -71,13 +71,13 @@ void taskPumpPublish(void *parameter) {
   for (;;) {
     sensorValue = analogRead(sensorPin);
 
-    Serial.print("Soil Moisture Value: ");
-    Serial.println(sensorValue);
+    //Serial.print("Soil Moisture Value: ");
+    //Serial.println(sensorValue);
 
     if (sensorValue > 500) {
       if (watered == false) {
 
-        client.publish("PumpOn","sensorValue");
+        client.publish("PumpOn2","sensorValue");
         Serial.println("SensorValue: " + String(sensorValue));
         Serial.println("Pump is ON");
         watered = true;
@@ -97,9 +97,9 @@ void clientLoop(void * parameter) {
   for (;;)  {
     while (!client.connected()) {
       Serial.print("Attempting MQTT connection...");
-      if (client.connect("Emma")) {
+      if (client.connect("Malin")) {
         Serial.println("connected");
-        client.subscribe("PumpOn2");
+        client.subscribe("PumpOn");
       } else {
         Serial.print("failed, rc=");
         Serial.print(client.state());
