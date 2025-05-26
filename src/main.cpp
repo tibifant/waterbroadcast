@@ -12,8 +12,8 @@ PubSubClient client(espClient);
 
 SemaphoreHandle_t xMutex;
 
-int sensorPin = 34;
-int pumpPin = 19;
+constexpr int sensorPin = 34;
+constexpr int pumpPin = 19;
 bool watered = false;
 bool triggerPump = false;
 
@@ -47,46 +47,38 @@ void connectToWLAN() {
 
 void taskPump(void *parameter) {
   for (;;) {
-    uint16_t sensorValue = analogRead(sensorPin);
+    const uint16_t sensorValue = analogRead(sensorPin);
 
     if (triggerPump) {
-          digitalWrite(pumpPin, HIGH);
-          vTaskDelay(1000 / portTICK_PERIOD_MS);
-          digitalWrite(pumpPin, LOW);
+      digitalWrite(pumpPin, HIGH);
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+      digitalWrite(pumpPin, LOW);
 
-        Serial.println("Pump triggerd");
-        if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
-          triggerPump = false;
-          xSemaphoreGive(xMutex);
-        }
-      } else {
-
-        digitalWrite(pumpPin, LOW);
+      if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+        triggerPump = false;
+        xSemaphoreGive(xMutex);
       }
+    } else {
+      digitalWrite(pumpPin, LOW);
+    }
+
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
 }
 
 void taskPumpPublish(void *parameter) {
   for (;;) {
-    uint16_t sensorValue = analogRead(sensorPin);
-
-    //Serial.print("Soil Moisture Value: ");
-    //Serial.println(sensorValue);
+    const uint16_t sensorValue = analogRead(sensorPin);
 
     if (sensorValue > 500 && !watered) {
-        client.publish("PumpOn2","sensorValue");
-        Serial.println("SensorValue: " + sensorValue);
-        Serial.println("Pump is ON");
-        watered = true;
-    }
-
-    if (sensorValue < 200) {
+      client.publish("PumpOn2", "Sensor value > 500");
+      watered = true;
+    } else if (sensorValue < 200) {
       watered = false;
     }
-  }
 
-  Serial.println("Task running");
-  vTaskDelay(1000 / portTICK_PERIOD_MS);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+  }
 }
 
 void clientLoop(void * parameter) {
@@ -112,10 +104,10 @@ void clientLoop(void * parameter) {
 void setup() {
   Serial.begin(9600);
 
-  if (!wm.autoConnect("AutoConnectAP", "flowerpower"))
-    Serial.println("Failed Connection via WiFiManager.");
-  else
-    Serial.println("Successfully connected via WiFIManager.");
+  //if (!wm.autoConnect("AutoConnectAP", "flowerpower"))
+  //  Serial.println("Failed Connection via WiFiManager.");
+  //else
+  //  Serial.println("Successfully connected via WiFIManager.");
 
   xMutex = xSemaphoreCreateMutex();
 
@@ -123,13 +115,13 @@ void setup() {
   pinMode(pumpPin, OUTPUT);
   digitalWrite(pumpPin, LOW);
 
-  //connectToWLAN();
+  connectToWLAN();
 
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
-  xTaskCreate( taskPump, "Pump", 2048, NULL, 1, NULL);
-  xTaskCreate(taskPumpPublish,"PumpPublish", 2048, NULL, 1, NULL);
+  xTaskCreate(taskPump, "Pump", 2048, NULL, 1, NULL);
+  xTaskCreate(taskPumpPublish,"PumpPublish", 4096, NULL, 1, NULL);
   xTaskCreatePinnedToCore(clientLoop, "Client loop",8192,NULL,1,NULL, CONFIG_ARDUINO_RUNNING_CORE);
 
   Serial.println("Setup complete");
