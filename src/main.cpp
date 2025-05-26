@@ -1,11 +1,13 @@
 #include <Arduino.h>
 #include <WiFi.h>
+#include <WiFiManager.h>
 #include <PubSubClient.h>
 
 const char* ssid = "CoCoLabor2";
 const char* password = "cocolabor12345";
 const char* mqtt_server = "broker.hivemq.com";
 WiFiClient espClient;
+WiFiManager wm;
 PubSubClient client(espClient);
 
 SemaphoreHandle_t xMutex;
@@ -71,14 +73,11 @@ void taskPumpPublish(void *parameter) {
     //Serial.print("Soil Moisture Value: ");
     //Serial.println(sensorValue);
 
-    if (sensorValue > 500) {
-      if (watered == false) {
-
+    if (sensorValue > 500 && !watered) {
         client.publish("PumpOn2","sensorValue");
-        Serial.println("SensorValue: " + String(sensorValue));
+        Serial.println("SensorValue: " + sensorValue);
         Serial.println("Pump is ON");
         watered = true;
-      }
     }
 
     if (sensorValue < 200) {
@@ -112,13 +111,19 @@ void clientLoop(void * parameter) {
 
 void setup() {
   Serial.begin(9600);
+
+  if (!wm.autoConnect("AutoConnectAP", "flowerpower"))
+    Serial.println("Failed Connection via WiFiManager.");
+  else
+    Serial.println("Successfully connected via WiFIManager.");
+
   xMutex = xSemaphoreCreateMutex();
 
   pinMode(sensorPin, INPUT);
   pinMode(pumpPin, OUTPUT);
   digitalWrite(pumpPin, LOW);
 
-  connectToWLAN();
+  //connectToWLAN();
 
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
