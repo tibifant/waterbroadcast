@@ -1,10 +1,7 @@
 #include <Arduino.h>
-//#include <WiFi.h>
 #include <WiFiManager.h>
 #include <PubSubClient.h>
 
-//const char* ssid = "CoCoLabor2";
-//const char* password = "cocolabor12345";
 const char* mqtt_server = "broker.hivemq.com";
 WiFiManager wm;
 WiFiClient espClient;
@@ -14,6 +11,7 @@ SemaphoreHandle_t xMutex;
 
 constexpr uint8_t sensorPin = 34;
 constexpr uint8_t pumpPin = 19;
+constexpr uint8_t buttonPin = 14;
 
 bool watered = false;
 bool triggerPump = false;
@@ -30,35 +28,28 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
 }
 
-//void connectToWLAN() {
-//  Serial.println();
-//  Serial.println();
-//  Serial.print("Connecting to ");
-//  Serial.println(ssid);
-//
-//  WiFi.begin(ssid, password);
-//
-//  while (WiFi.status() != WL_CONNECTED) {
-//    delay(500);
-//    Serial.print(".");
-//  }
-//
-//  Serial.println("");
-//  Serial.println("WiFi connected");
-//  Serial.println("IP address:");
-//  Serial.println(WiFi.localIP());
-//}
+void connectToWLAN() {  
+  if (!wm.autoConnect("AutoConnectAP", "flowerpower"))
+    Serial.println("Failed Connection via WiFiManager.");
+  else
+    Serial.println("Successfully connected via WiFIManager.");
+}
 
 void taskPump(void *parameter) {
-  for (;;) {
+  while (true) {
     const uint16_t sensorValue = analogRead(sensorPin);
 
-    if (triggerPump && sensorValue < dryThreshold) {
+    if (triggerPump) {//&& sensorValue < dryThreshold) {
       digitalWrite(pumpPin, HIGH);
-      Serial.println("Pump was activated with sensorvalue = " + sensorValue);
+      
+      if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+        Serial.println("Pump was activated");
+        xSemaphoreGive(xMutex);
+      }
+
       vTaskDelay(1000 / portTICK_PERIOD_MS);
       digitalWrite(pumpPin, LOW);
-
+      
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
         triggerPump = false;
         xSemaphoreGive(xMutex);
@@ -72,12 +63,17 @@ void taskPump(void *parameter) {
 }
 
 void taskPumpPublish(void *parameter) {
-  for (;;) {
+  while (true) {
     const uint16_t sensorValue = analogRead(sensorPin);
 
-    if (sensorValue > wetThreshold && !watered) {
-      client.publish("PumpOn2", "Sensor value > 500");
-      Serial.println("Publisher was triggered with sensorvalue = " + sensorValue);
+    if (digitalRead(buttonPin)) {//(sensorValue > wetThreshold && !watered) {
+      client.publish("PumpOn2", "true");
+
+      if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+        Serial.println("Publisher was triggered");
+        xSemaphoreGive(xMutex);
+      }
+      
       watered = true;
     } else if (sensorValue < dryThreshold) {
       watered = false;
@@ -88,10 +84,10 @@ void taskPumpPublish(void *parameter) {
 }
 
 void clientLoop(void * parameter) {
-  for (;;)  {
+  while (true) {
     while (!client.connected()) {
       Serial.print("Attempting MQTT connection...");
-      if (client.connect("Malin")) {
+      if (client.connect("Flower1")) {
         Serial.println("connected");
         client.subscribe("PumpOn");
       } else {
@@ -115,20 +111,17 @@ void setup() {
   pinMode(sensorPin, INPUT);
   pinMode(pumpPin, OUTPUT);
   digitalWrite(pumpPin, LOW);
+  
+  pinMode(buttonPin, INPUT);
 
-  if (!wm.autoConnect("AutoConnectAP", "flowerpower"))
-    Serial.println("Failed Connection via WiFiManager.");
-  else
-    Serial.println("Successfully connected via WiFIManager.");
-
-  //connectToWLAN();
+  connectToWLAN();
 
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
-  xTaskCreate(taskPump, "Pump", 2048, NULL, 1, NULL);
+  xTaskCreate(taskPump, "Pump", 4096, NULL, 1, NULL);
   xTaskCreate(taskPumpPublish,"PumpPublish", 4096, NULL, 1, NULL);
-  xTaskCreatePinnedToCore(clientLoop, "Client loop",8192,NULL,1,NULL, CONFIG_ARDUINO_RUNNING_CORE);
+  xTaskCreatePinnedToCore(clientLoop, "Client loop", 8192, NULL, 1, NULL, CONFIG_ARDUINO_RUNNING_CORE);
 
   Serial.println("Setup complete");
 }
@@ -136,4 +129,3 @@ void setup() {
 void loop(){
 
 }
-
