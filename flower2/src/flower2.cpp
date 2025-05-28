@@ -31,18 +31,21 @@ enum status_type : uint8_t {
   
   st_count
 };
+
 void manageLed(bool on) {
   if (on)
     digitalWrite(ledPin, HIGH);
   else
     digitalWrite(ledPin, LOW);
-
 }
+
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived!");
   Serial.println(String(topic));
 
   if (strcmp(topic, pumpSubscriberTopic)==0) {
+    Serial.println("Pump Message Arrived!!!");
+    
     const uint16_t sensorValue = analogRead(sensorPin);
 
     if (sensorValue < dryThreshold) {
@@ -53,17 +56,22 @@ void callback(char* topic, byte* payload, unsigned int length) {
     }
   } else if (strcmp(topic, statusSubscriberTopic)==0) {
     Serial.print(*payload);
-    switch (*payload) {
-      case st_wet: {
-        manageLed(false);
-        break;
-      }
-      case st_dry: {
-        manageLed(true);
-        break;
-      }
-      default: {
-        Serial.println("Unkonwn payload status");
+
+    if (length >= 1) {
+      const status_type status = (status_type)(*payload);
+
+      switch (status) {
+        case st_wet: {
+          digitalWrite(ledPin, LOW);
+          break;
+        }
+        case st_dry: {
+          digitalWrite(ledPin, HIGH);
+          break;
+        }
+        default: {
+          Serial.println("Unkonwn payload status");
+        }
       }
     }
   }
@@ -76,7 +84,7 @@ void connectToWLAN() {
     Serial.println("Successfully connected via WiFIManager.");
 }
 
-void taskPump(void*parameter) {
+void taskPump(void *parameter) {
   while (true) {
     if (triggerPump) {
       digitalWrite(pumpPin, HIGH);

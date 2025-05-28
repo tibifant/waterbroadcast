@@ -52,7 +52,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
       }
     }
   } else if (strcmp(topic, statusSubscriberTopic)==0) {
-    switch (*payload) {
+    if (length >= 1) {
+    const status_type status = (status_type)(*payload);
+    switch (status) {
       case st_wet: {
         manageLed(false);
         break;
@@ -64,6 +66,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       default: {
         Serial.println("Unkonwn payload status");
       }
+    }
     }
   }
 }
