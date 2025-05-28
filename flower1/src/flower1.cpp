@@ -32,10 +32,17 @@ enum status_type : uint8_t {
   st_count
 };
 
+void manageLed(bool on) {
+  if (on)
+    digitalWrite(ledPin, HIGH);
+  else
+    digitalWrite(ledPin, LOW);
+
+}
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived!");
 
-  if (!strcmp(topic, pumpSubscriberTopic)) {
+  if (strcmp(topic, pumpSubscriberTopic)==0) {
     const uint16_t sensorValue = analogRead(sensorPin);
 
     if (sensorValue < dryThreshold) {
@@ -44,7 +51,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         xSemaphoreGive(xMutex);
       }
     }
-  } else if (!strcmp(topic, statusSubscriberTopic)) {
+  } else if (strcmp(topic, statusSubscriberTopic)==0) {
     switch (*payload) {
       case st_wet: {
         manageLed(false);
@@ -68,7 +75,7 @@ void connectToWLAN() {
     Serial.println("Successfully connected via WiFIManager.");
 }
 
-void taskPump() {
+void taskPump(void* parameter) {
   while (true) {
     if (triggerPump) {
       digitalWrite(pumpPin, HIGH);
@@ -125,13 +132,7 @@ void taskPumpPublish(void *parameter) {
   }
 }
 
-void manageLed(bool on) {
-  if (on)
-    digitalWrite(ledPin, HIGH);
-  else
-    digitalWrite(ledPin, LOW);
 
-}
 
 void clientLoop(void * parameter) {
   while (true) {
