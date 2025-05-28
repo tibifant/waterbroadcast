@@ -37,12 +37,15 @@ void manageLed(bool on) {
     digitalWrite(ledPin, HIGH);
   else
     digitalWrite(ledPin, LOW);
-
 }
+
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived!");
+  Serial.println(String(topic));
 
   if (strcmp(topic, pumpSubscriberTopic)==0) {
+    Serial.println("Pump Message Arrived!!!");
+
     const uint16_t sensorValue = analogRead(sensorPin);
 
     if (sensorValue < dryThreshold) {
@@ -52,37 +55,40 @@ void callback(char* topic, byte* payload, unsigned int length) {
       }
     }
   } else if (strcmp(topic, statusSubscriberTopic)==0) {
+    Serial.print(*payload);
+
     if (length >= 1) {
-    const status_type status = (status_type)(*payload);
-    switch (status) {
-      case st_wet: {
-        manageLed(false);
-        break;
+      const status_type status = (status_type)(*payload);
+
+      switch (status) {
+        case st_wet: {
+          digitalWrite(ledPin, LOW);
+          break;
+        }
+        case st_dry: {
+          digitalWrite(ledPin, HIGH);
+          break;
+        }
+        default: {
+          Serial.println("Unkonwn payload status");
+        }
       }
-      case st_dry: {
-        manageLed(true);
-        break;
-      }
-      default: {
-        Serial.println("Unkonwn payload status");
-      }
-    }
     }
   }
 }
 
-void connectToWLAN() {  
+void connectToWLAN() {
   if (!wm.autoConnect("AutoConnectAP", "flowerpower"))
     Serial.println("Failed Connection via WiFiManager.");
   else
     Serial.println("Successfully connected via WiFIManager.");
 }
 
-void taskPump(void* parameter) {
+void taskPump(void *parameter) {
   while (true) {
     if (triggerPump) {
       digitalWrite(pumpPin, HIGH);
-      
+
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
         Serial.println("Pump was activated");
         watered = true;
@@ -91,7 +97,7 @@ void taskPump(void* parameter) {
 
       vTaskDelay(5000 / portTICK_PERIOD_MS);
       digitalWrite(pumpPin, LOW);
-      
+
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
         triggerPump = false;
         xSemaphoreGive(xMutex);
@@ -119,14 +125,14 @@ void taskPumpPublish(void *parameter) {
           Serial.println("Publisher was triggered");
           watered = true;
           xSemaphoreGive(xMutex);
-        } 
-      }     
+        }
+      }
     } else if (sensorValue < dryThreshold) {
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
         watered = false;
         xSemaphoreGive(xMutex);
       }
-      
+
       const byte payload = (byte)(st_dry);
       client.publish(statusPublisherTopic, &payload, sizeof(status_type));
     }
@@ -167,7 +173,7 @@ void setup() {
   pinMode(pumpPin, OUTPUT);
   digitalWrite(pumpPin, LOW);
   pinMode(ledPin, OUTPUT);
-  analogWrite(ledPin, LOW);
+  digitalWrite(ledPin, HIGH);
 
   connectToWLAN();
 
