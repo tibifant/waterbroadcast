@@ -11,7 +11,6 @@ SemaphoreHandle_t xMutex;
 
 constexpr uint8_t sensorPin = 34;
 constexpr uint8_t pumpPin = 19;
-constexpr uint8_t buttonPin = 14;
 
 bool watered = false;
 bool triggerPump = false;
@@ -39,11 +38,12 @@ void taskPump(void *parameter) {
   while (true) {
     const uint16_t sensorValue = analogRead(sensorPin);
 
-    if (triggerPump) {//&& sensorValue < dryThreshold) {
+    if (triggerPump && sensorValue < dryThreshold) {
       digitalWrite(pumpPin, HIGH);
       
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
         Serial.println("Pump was activated");
+        watered = true;
         xSemaphoreGive(xMutex);
       }
 
@@ -66,17 +66,19 @@ void taskPumpPublish(void *parameter) {
   while (true) {
     const uint16_t sensorValue = analogRead(sensorPin);
 
-    if (digitalRead(buttonPin)) {//(sensorValue > wetThreshold && !watered) {
+    if (sensorValue > wetThreshold && !watered) {
       client.publish("PumpOn2", "true");
 
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
         Serial.println("Publisher was triggered");
+        watered = true;
+        xSemaphoreGive(xMutex);
+      }      
+    } else if (sensorValue < dryThreshold) {
+      if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+        watered = false;
         xSemaphoreGive(xMutex);
       }
-      
-      watered = true;
-    } else if (sensorValue < dryThreshold) {
-      watered = false;
     }
 
     vTaskDelay(1000 / portTICK_PERIOD_MS);
@@ -111,8 +113,6 @@ void setup() {
   pinMode(sensorPin, INPUT);
   pinMode(pumpPin, OUTPUT);
   digitalWrite(pumpPin, LOW);
-  
-  pinMode(buttonPin, INPUT);
 
   connectToWLAN();
 
