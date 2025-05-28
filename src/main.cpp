@@ -20,10 +20,13 @@ constexpr uint16_t wetThreshold = 500;
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived!");
+  const uint16_t sensorValue = analogRead(sensorPin);
 
-  if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
-    triggerPump = true;
-    xSemaphoreGive(xMutex);
+  if (sensorValue < dryThreshold) {
+    if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+      triggerPump = true;
+      xSemaphoreGive(xMutex);
+    }
   }
 }
 
@@ -38,7 +41,7 @@ void taskPump(void *parameter) {
   while (true) {
     const uint16_t sensorValue = analogRead(sensorPin);
 
-    if (triggerPump && sensorValue < dryThreshold) {
+    if (triggerPump) {
       digitalWrite(pumpPin, HIGH);
       
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
