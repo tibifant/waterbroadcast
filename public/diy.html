@@ -12,12 +12,45 @@
       font-family: 'DM Sans', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      background-color: white;
     }
+    nav {
+      font-size: 25px;
+      background-color: white;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      float: right;
+    }
+
+    nav li a {
+      display: block;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    nav li a:hover {
+      background-color: #ddd;
+    }
+
     .diy-section {
       margin: 60px auto;
       max-width: 1200px;
       padding: 0 20px;
+      background-color: white;
     }
 
     .diy-title {
@@ -109,6 +142,17 @@
   </style>
 </head>
 <body>
+
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="diy.html">DIY</a></li>
+    <li><a href="documentation.html">Documentation</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="video.html">Video</a></li>
+  </ul>
+</nav>
+
 <div class="diy-section">
   <div class="diy-title">DIY TUTORIAL</div>
 
