@@ -1,2 +1,22 @@
 # The Docker image that will be used to build your app
 image: node:lts
+
+stages:
+  - test
+  - build
+
+# Example jobs
+test:
+  stage: test
+  script:
+    - npm install
+    - npm test
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
