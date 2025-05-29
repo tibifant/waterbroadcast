@@ -92,26 +92,34 @@
             border-radius: 8px;
         }
         .Introduction {
-            position: absolute;
-            left: 30px;
+
+            position: relative;
+            width: 1200;
+            height: 600px;
             color: black;
-            font-weight: bold;
-            font-size: 40px;
             padding: 20px;
-            margin-top: 100px; /* Adjust for fixed navbar */
-            border-radius: 8px;
-        }
-        .introduction-text{
-            position: absolute;
-            left: 30px;
-            color: black;
-            font-weight: normal;
-            font-size: 20px;
-            padding: 20px;
-            margin-top: 50px; /* Adjust for fixed navbar */
-            border-radius: 8px;
+            margin:120px 0 0 60px; /* Center horizontally, adjust top margin for navbar */
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            box-sizing: border-box;
         }
 
+        .introduction-title {
+            font-weight: bold;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .introduction-text {
+            font-size: 20px;
+            font-weight: normal;
+            color: black;
+            padding: 0;
+            margin: 0;
+        }
         footer{
             position: fixed;
             left: 0;
@@ -129,7 +137,8 @@
 <body>
 <nav>
     <ul>
-        <li><a href="index.html">DIY Water Broadcast</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="diy.html">DIY</a></li>
         <li><a href="documentation.html">Documentation</a></li>
         <li><a href="team.html">Team</a></li>
         <li><a href="video.html">Video</a></li>
@@ -144,9 +153,14 @@
 </div>
 
 <main>
+
     <div class="Introduction">
         <span class="introduction-title">INTRODUCTION</span>
-        <span class="introduction-text">A New Way to Connect Friends over Distance</span>
+        <span class="introduction-text">The project "Water Broadcast" is a product of our IoT course with Matthias Böhmer and introduces a new way of connecting friends across distances.
+We were given the task to bridge the gap in friendships and quickly decided that our favorite way of connecting is through acts of service or kindness.
+Given that we’ve all sadly lost beloved plants due to negligence before, we decided to tackle that problem by creating a friendship-based watering system.
+Instead of sending a long message or making a time-consuming call, you can simply go about your day and water your friend’s plant by watering your own. Whether you live in different parts of a city or thousands of miles apart, a simple favor can make you feel deeply connected.
+We often pressure ourselves about not being able to fulfill all our social duties and expectations after a long day. What if staying connected doesn’t require additional effort but instead minimizes it by sharing a chore with a friend?</span>
     </div>
 
 
