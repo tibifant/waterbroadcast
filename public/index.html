@@ -46,17 +46,83 @@
         nav li a:hover {
             background-color: #ddd;
         }
-        header {
+
+        .header-img-container {
+            position: relative;
             width: 100vw;
+            height: auto;
             overflow: hidden;
         }
 
         .header-img {
             width: 100vw;
-            height: 800px;
+            height: auto;
             object-fit: cover;
             display: block;
         }
+        .header-top-left {
+            position: absolute;
+            right: 20px;
+            top: 60px;
+            color: white;
+            font-weight: bold;
+            font-size: 120px;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .header-title {
+            position: absolute;
+            left: 20px;
+            bottom: 40px;
+            color: white;
+           font-weight: bold;
+            font-size: 120px;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+        .sub-title {
+            position: absolute;
+            left: 30px;
+            bottom: 20px;
+            color: white;
+            font-weight: normal;
+            font-size: 40px;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+        .Introduction {
+            position: absolute;
+            left: 30px;
+            color: black;
+            font-weight: bold;
+            font-size: 40px;
+            padding: 20px;
+            margin-top: 100px; /* Adjust for fixed navbar */
+            border-radius: 8px;
+        }
+        .introduction-text{
+            position: absolute;
+            left: 30px;
+            color: black;
+            font-weight: normal;
+            font-size: 20px;
+            padding: 20px;
+            margin-top: 50px; /* Adjust for fixed navbar */
+            border-radius: 8px;
+        }
+
+        footer{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            text-align: center;
+            padding: 5px 0;
+            z-index: 1000;
+        }
+
     </style>
   
 </head>
@@ -70,19 +136,26 @@
     </ul>
 </nav>
 
-<header>
+<div class="header-img-container">
     <img src="WaterBroadcast1.jpg" alt="Header Image" class="header-img">
-</header>
+    <span class="header-top-left">AN IOT STUDENT PROJECT</span>
+    <span class="header-title">WATER BROADCAST</span>
+    <span class="sub-title">A New Way to Connect Friends over Distance</span>
+</div>
 
 <main>
-    <!-- Your page content will go here -->
-    <h1>Welcome to our Website</h1>
-    <p>This is the main content area.</p>
+    <div class="Introduction">
+        <span class="introduction-title">INTRODUCTION</span>
+        <span class="introduction-text">A New Way to Connect Friends over Distance</span>
+    </div>
+
+
 </main>
 
 <footer>
     <!-- Footer content can go here -->
     <p>&copy; 2025 TH Köln. Project by Malin Lindner, Lina Stawiarski and Emma Reeb All rights reserved.</p>
 </footer>
+
 </body>
 </html>
