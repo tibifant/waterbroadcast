@@ -1,11 +1,23 @@
-image: node:lts
+#image: node:lts
+#
+#stages:
+#  - validate
+#
+#check_env:
+#  stage: validate
+#  script:
+#    - echo "Pipeline is working!"
+#    - node --version
+#    - npm --version
 
-stages:
-  - validate
+image: alpine
 
-check_env:
-  stage: validate
+pages:
+  stage: deploy
   script:
-    - echo "Pipeline is working!"
-    - node --version
-    - npm --version
+    - echo "Deploying static files..."
+  artifacts:
+    paths:
+      - public/
+  only:
+    - main
