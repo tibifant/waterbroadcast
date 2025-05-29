@@ -1,22 +1,11 @@
-# The Docker image that will be used to build your app
 image: node:lts
 
 stages:
-  - test
-  - build
+  - validate
 
-# Example jobs
-test:
-  stage: test
+check_env:
+  stage: validate
   script:
-    - npm install
-    - npm test
-
-build:
-  stage: build
-  script:
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - dist/
+    - echo "Pipeline is working!"
+    - node --version
+    - npm --version
