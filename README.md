@@ -1,4 +1,4 @@
-# [Water Broadcast]  
+# Water Broadcast  
 *Take care of your friends plant, even when miles apart.*  
 
 ## 📌 Overview  
@@ -26,7 +26,7 @@ We often pressure ourselves about not being able to fulfill all our social dutie
    cd [project-folder]
    git clone [the-repo-url.git] or via SSH-Key
    
-2. Now redirect to the IDE of you choice and ofen the project.
+2. Now redirect to the IDE of you choice and open the project.
 
 
 You're all set !
