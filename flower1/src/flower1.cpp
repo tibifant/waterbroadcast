@@ -8,7 +8,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 const char* clientName = "Flower1";
-const char* pumpPublisherTopic = "PumpOn2";
+const char* pumpPublisherTopic = "PumpOn1";
 const char* pumpSubscriberTopic = "PumpOn";
 const char* statusPublisherTopic = "status_flower1";
 const char* statusSubscriberTopic = "status_flower2";
