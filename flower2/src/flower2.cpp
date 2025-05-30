@@ -23,7 +23,7 @@ bool watered = false;
 bool triggerPump = false;
 
 constexpr uint16_t dryThreshold = 200;
-constexpr uint16_t wetThreshold = 500;
+constexpr uint16_t wateredThreshold = 500;
 
 enum status_type : uint8_t {
   st_dry,
@@ -110,11 +110,11 @@ void taskPump(void *parameter) {
   }
 }
 
-void taskPumpPublish(void *parameter) {
+void taskPublish(void *parameter) {
   while (true) {
     const uint16_t sensorValue = analogRead(sensorPin);
 
-    if (sensorValue > wetThreshold) {
+    if (sensorValue > wateredThreshold) {
       const byte payload = (byte)(st_wet);
       client.publish(statusPublisherTopic, &payload, sizeof(status_type));
 
@@ -181,7 +181,7 @@ void setup() {
   client.setCallback(callback);
 
   xTaskCreate(taskPump, "Pump", 4096, NULL, 1, NULL);
-  xTaskCreate(taskPumpPublish,"PumpPublish", 4096, NULL, 1, NULL);
+  xTaskCreate(taskPublish,"PumpPublish", 4096, NULL, 1, NULL);
   xTaskCreatePinnedToCore(clientLoop, "Client loop", 8192, NULL, 1, NULL, CONFIG_ARDUINO_RUNNING_CORE);
 
   Serial.println("Setup complete");

@@ -2,16 +2,26 @@
 #include <WiFiManager.h>
 #include <PubSubClient.h>
 
+#if defined(CLIENT_1)
+const char* clientName = "Flower1";
+const char* pumpPublisherTopic = "activate_pump2";
+const char* pumpSubscriberTopic = "activate_pump1";
+const char* statusPublisherTopic = "status_flower1";
+const char* statusSubscriberTopic = "status_flower2";
+#elif defined(CLIENT_2)
+const char* clientName = "Flower2";
+const char* pumpPublisherTopic = "activate_pump1";
+const char* pumpSubscriberTopic = "activate_pump2";
+const char* statusPublisherTopic = "status_flower2";
+const char* statusSubscriberTopic = "status_flower1";
+#else
+#error "No Client Name provided."
+#endif
+
 const char* mqtt_server = "broker.hivemq.com";
 WiFiManager wm;
 WiFiClient espClient;
 PubSubClient client(espClient);
-
-const char* clientName = "Flower1";
-const char* pumpPublisherTopic = "PumpOn1";
-const char* pumpSubscriberTopic = "PumpOn";
-const char* statusPublisherTopic = "status_flower1";
-const char* statusSubscriberTopic = "status_flower2";
 
 SemaphoreHandle_t xMutex;
 
@@ -23,7 +33,7 @@ bool watered = false;
 bool triggerPump = false;
 
 constexpr uint16_t dryThreshold = 200;
-constexpr uint16_t wetThreshold = 500;
+constexpr uint16_t wateredThreshold = 500;
 
 enum status_type : uint8_t {
   st_dry,
@@ -32,20 +42,16 @@ enum status_type : uint8_t {
   st_count
 };
 
-void manageLed(bool on) {
-  if (on)
-    digitalWrite(ledPin, HIGH);
-  else
-    digitalWrite(ledPin, LOW);
-}
+status_type lastStatus = st_count;
 
-void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived!");
-  Serial.println(String(topic));
+void callback(char* topic, byte* payload, unsigned int length) {  
+  if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+    Serial.print("Message arrived!");
+    Serial.println(String(topic));
+    xSemaphoreGive(xMutex);
+  }
 
-  if (strcmp(topic, pumpSubscriberTopic)==0) {
-    Serial.println("Pump Message Arrived!!!");
-
+  if (strcmp(topic, pumpSubscriberTopic) == 0) {
     const uint16_t sensorValue = analogRead(sensorPin);
 
     if (sensorValue < dryThreshold) {
@@ -54,9 +60,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         xSemaphoreGive(xMutex);
       }
     }
-  } else if (strcmp(topic, statusSubscriberTopic)==0) {
-    Serial.print(*payload);
-
+  } else if (strcmp(topic, statusSubscriberTopic) == 0) {
     if (length >= 1) {
       const status_type status = (status_type)(*payload);
 
@@ -70,7 +74,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
           break;
         }
         default: {
-          Serial.println("Unkonwn payload status");
+          if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+            Serial.println("Unkonwn payload status");
+            xSemaphoreGive(xMutex);
+          }
         }
       }
     }
@@ -95,7 +102,7 @@ void taskPump(void *parameter) {
         xSemaphoreGive(xMutex);
       }
 
-      vTaskDelay(5000 / portTICK_PERIOD_MS);
+      vTaskDelay(2000 / portTICK_PERIOD_MS);
       digitalWrite(pumpPin, LOW);
 
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
@@ -110,38 +117,45 @@ void taskPump(void *parameter) {
   }
 }
 
-void taskPumpPublish(void *parameter) {
+void taskPublish(void *parameter) {
   while (true) {
     const uint16_t sensorValue = analogRead(sensorPin);
+    status_type currentStatus = st_count;
 
-    if (sensorValue > wetThreshold) {
-      const byte payload = (byte)(st_wet);
-      client.publish(statusPublisherTopic, &payload, sizeof(status_type));
+    if (sensorValue < dryThreshold) {
+      currentStatus = st_dry;
 
-      if (!watered) {
-        client.publish(pumpPublisherTopic, "true");
-
-        if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
-          Serial.println("Publisher was triggered");
-          watered = true;
-          xSemaphoreGive(xMutex);
-        }
-      }
-    } else if (sensorValue < dryThreshold) {
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
         watered = false;
         xSemaphoreGive(xMutex);
       }
+      
+    } else {
+      currentStatus = st_wet;
 
-      const byte payload = (byte)(st_dry);
+      if (sensorValue > wateredThreshold) {
+        if (!watered) {
+          client.publish(pumpPublisherTopic, "Friend Watered");
+
+          if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+              Serial.println("Watering Publisher was triggered");
+            watered = true;
+            xSemaphoreGive(xMutex);
+          }
+        }
+      }
+    }
+
+    if (currentStatus != lastStatus) {
+      const byte payload = currentStatus;
       client.publish(statusPublisherTopic, &payload, sizeof(status_type));
+      
+      lastStatus = currentStatus;
     }
 
     vTaskDelay(5000 / portTICK_PERIOD_MS);
   }
 }
-
-
 
 void clientLoop(void * parameter) {
   while (true) {
@@ -180,8 +194,8 @@ void setup() {
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
-  xTaskCreate(taskPump, "Pump", 4096, NULL, 1, NULL);
-  xTaskCreate(taskPumpPublish,"PumpPublish", 4096, NULL, 1, NULL);
+  xTaskCreate(taskPump, "Activate Pump", 4096, NULL, 1, NULL);
+  xTaskCreate(taskPublish,"Publish Pump and Status", 4096, NULL, 1, NULL);
   xTaskCreatePinnedToCore(clientLoop, "Client loop", 8192, NULL, 1, NULL, CONFIG_ARDUINO_RUNNING_CORE);
 
   Serial.println("Setup complete");
