@@ -152,7 +152,7 @@
          /* Set a fixed width */
       height: 400px;        /* Set a fixed height */
       object-fit: contain;
-      padding: 10px;
+      padding: 20px;
     }
 
     .Hardware-Steps{
@@ -165,7 +165,7 @@
     .Hardware-Steps img{
       height: 400px;        /* Set a fixed height */
       object-fit: contain;
-      padding: 10px;
+      padding: 20px;
     }
 
 
@@ -222,10 +222,17 @@
     <div class="step-content">
       <h3>Hardware Setup</h3>
       <ol>
-        <li>Connect the soil moisture sensor to your ESP32 (A0 pin)</li>
-        <li>Connect the water pump to a transistor and power supply</li>
-        <li>Connect the transistor gate to a GPIO pin on the ESP32</li>
-        <li>Repeat this setup for both units</li>
+        <li>Connect your Esp32 to a breadboard</li>
+        <li>Power your Esp32 via your Laptop</li>
+        <li>Connect your Moisture Sensor to your Esp. The yellow cable should connect to an Analog pin</li>
+        <li>Spread your Transistors legs into three different rows.</li>
+        <li>Connect the Transistors middle leg via a Resistor to a different row on the Breadboard</li>
+        <li>The orange cable you see in the photo below should now connect your middle Transistor leg
+          via the Resistor to an Output pin on your Esp32</li>
+        <li>Connect the left leg of the Transistor to your power supply</li>
+        <li>Connect the right leg of the Transistor to your Pump</li>
+        <li>Connect the black cable end of your Pump to your GND </li>
+
       </ol>
     </div>
   </div>
