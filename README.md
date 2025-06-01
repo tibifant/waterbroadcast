@@ -28,6 +28,11 @@ We often pressure ourselves about not being able to fulfill all our social dutie
    
 2. Now redirect to the IDE of you choice and open the project.
 
+## Would you like to build our project yourself to connect with a longdistance friend?
+### We have a DIY!
+- open our index.html through a browser of your choice and have a look at our step to step guid of your own Water Broadcast system. 
+
+
 
 You're all set !
 
