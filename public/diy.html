@@ -46,11 +46,28 @@
       background-color: #ddd;
     }
 
+    .hardness-level {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 100px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .stars {
+      color: #f5b301;
+      letter-spacing: 2px;
+      font-size: 50px;
+    }
+
     .diy-section {
       margin: 60px auto;
       max-width: 1200px;
       padding: 0 20px;
       background-color: white;
+      font-weight: normal;
+      font-size: 18px;
     }
 
     .diy-title {
@@ -64,6 +81,7 @@
       display: flex;
       margin-bottom: 40px;
       align-items: flex-start;
+      margin-bottom: 80px;
     }
 
     .step-number {
@@ -79,6 +97,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+
     }
 
     .step-content {
@@ -95,8 +114,7 @@
     .step-content ol, .step-content ul {
       font-size: 18px;
       line-height: 1.6;
-      margin-bottom: 15px;
-      padding-left: 20px;
+      margin-bottom: 20px;
     }
 
     .diy-image {
@@ -108,6 +126,7 @@
     }
 
     .code-block {
+      font-size: 18px;
       display: block;
       background-color: #f5f5f5;
       padding: 15px;
@@ -116,6 +135,7 @@
       white-space: pre-wrap;
       margin: 15px 0;
       overflow-x: auto;
+
     }
 
     .repository-link {
@@ -140,32 +160,53 @@
       text-decoration: underline;
     }
 
-    div.material-images {
-      width: 100%;         /* Set a fixed width */
-      background-color: white;
-      overflow: auto;
-      white-space: nowrap;
+    .material-images, .Hardware-Steps {
+      color: white;
+      display: flex;
+      gap: 20px;
       padding: 10px;
+      background: white;
+      overflow-x: auto;
+      margin-bottom: 80px;
     }
-
-    div.material-images img {
-         /* Set a fixed width */
-      height: 400px;        /* Set a fixed height */
+    .image-step {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .image-step img {
+      width: 400px;
       object-fit: contain;
-      padding: 20px;
+      display: block;
     }
+    .step-label {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      font-size: 70px;
+      font-weight: bold;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .image-title {
+      position: absolute;
+      left: 30px;
+      bottom: 30px;
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      font-size: 16px;
+      padding: 6px 12px;
+      z-index: 2;
+      max-width: 80%;
+      box-sizing: border-box;
+      pointer-events: none;
 
-    .Hardware-Steps{
-      width: 100%;         /* Set a fixed width */
-      background-color: white;
-      overflow: auto;
-      white-space: nowrap;
-      padding: 10px;
-    }
-    .Hardware-Steps img{
-      height: 400px;        /* Set a fixed height */
-      object-fit: contain;
-      padding: 20px;
     }
 
 
@@ -186,6 +227,10 @@
 
 <div class="diy-section">
   <div class="diy-title">DIY TUTORIAL</div>
+  <div class="hardness-level">
+  <span>Level:</span>
+  <span class="stars">★★★☆☆</span>
+</div>
 
   <div class="diy-step">
     <div class="step-number">1</div>
@@ -206,13 +251,41 @@
   </div>
 
   <div class="material-images">
-    <img src="photos/EsP32.jpeg" alt="Esp32 Microcontroller">
-    <img src="photos/Moisturesensor.jpeg" alt="Moisture Sensor">
-    <img src="photos/pump.jpeg" alt="Pump">
-    <img src="photos/Transistor.jpeg" alt="Transistor">
-    <img src="photos/Wiederstand1k.jpeg" alt="Wiederstand 1k">
-    <img src="photos/cables.jpeg" alt="Cables">
-    <img src="photos/Breadboard.jpeg" alt="Breadboard">
+    <div class="image-step">
+      <span class="step-label">1</span>
+      <img src="photos/EsP32.jpeg" alt="Esp32 Microcontroller">
+      <span class="image-title">ESP32 Microcontroller</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">2</span>
+      <img src="photos/Moisturesensor.jpeg" alt="Moisture Sensor">
+      <span class="image-title">Moisture Sensor</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">3</span>
+      <img src="photos/pump.jpeg" alt="Pump">
+      <span class="image-title">Water Pump</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">4</span>
+      <img src="photos/Transistor.jpeg" alt="Transistor">
+      <span class="image-title">Transistor</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">5</span>
+      <img src="photos/Wiederstand1k.jpeg" alt="Wiederstand 1k">
+      <span class="image-title">1kΩ Resistor</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">6</span>
+      <img src="photos/cables.jpeg" alt="Cables">
+      <span class="image-title">Jumper Wires</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">7</span>
+      <img src="photos/Breadboard.jpeg" alt="Breadboard">
+      <span class="image-title">Breadboard</span>
+    </div>
   </div>
 
 
@@ -232,31 +305,86 @@
         <li>Connect the left leg of the Transistor to your power supply</li>
         <li>Connect the right leg of the Transistor to your Pump</li>
         <li>Connect the black cable end of your Pump to your GND </li>
+        <li>OPTIONAL: If you're a pro and do not mind putting in some extra work you can also attach
+          an LED to your project so you always know when your friends plant needs water.</li>
 
       </ol>
     </div>
   </div>
 
   <div class="Hardware-Steps">
-    <img src="photos/Step1.jpeg" alt="Hardware Step 1">
-    <img src="photos/Step2.jpeg" alt="Hardware Step 2">
-    <img src="photos/Step3.jpeg" alt="Hardware Step 3">
-    <img src="photos/Step4.jpeg" alt="Hardware Step 4">
-    <img src="photos/Step5.jpeg" alt="Hardware Step 5">
-    <img src="photos/step6.1.jpeg" alt="Hardware Step 6">
-    <img src="photos/Step 6.2.jpeg" alt="Hardware Step 7">
-    <img src="photos/step7.1.jpeg" alt="Hardware Step 8">
-    <img src="photos/step9.jpeg" alt="Hardware Step 9">
-    <img src="photos/step10.jpeg" alt="Hardware Step 10">
-    <img src="photos/step11.jpeg" alt="Hardware Step 11">
-
-
+    <div class="image-step">
+      <span class="step-label">1</span>
+      <img src="photos/Step1.jpeg" alt="Hardware Step 1">
+      <span class="image-title">Connect ESP32 to Breadboard</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">2</span>
+      <img src="photos/Step2.jpeg" alt="Hardware Step 2">
+      <span class="image-title">Power ESP32</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">3</span>
+      <img src="photos/Step3.jpeg" alt="Hardware Step 3">
+      <span class="image-title">Attach Moisture Sensor</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">4</span>
+      <img src="photos/Step4.jpeg" alt="Hardware Step 4">
+      <span class="image-title">Connect to matching cables, leave out the white one</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">5</span>
+      <img src="photos/Step5.jpeg" alt="Hardware Step 5">
+      <span class="image-title">Connect the yellow cable to an analog pin, the power cables to 5vol and GND</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">6</span>
+      <img src="photos/step6.1.jpeg" alt="Hardware Step 6">
+      <span class="image-title">Split the Transistors legs into three different rows</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">7</span>
+      <img src="photos/Step 6.2.jpeg" alt="Hardware Step 7">
+      <span class="image-title">Connect the cables to the Esps power source</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">8</span>
+      <img src="photos/step7.1.jpeg" alt="Hardware Step 8">
+      <span class="image-title">Stick the resistor between the transistors middle leg and a new row</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">9</span>
+      <img src="photos/step9.jpeg" alt="Hardware Step 9">
+      <span class="image-title">Now connect the new resistor row to an output pin of your Esp (orange cable)</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">10</span>
+      <img src="photos/step10.jpeg" alt="Hardware Step 10">
+      <span class="image-title">Also connect your Transistors left leg to the Esps power source while the right leg gives power to the pump via a red clamp</span>
+    </div>
+    <div class="image-step">
+      <span class="step-label">11</span>
+      <img src="photos/step11.jpeg" alt="Hardware Step 11">
+      <span class="image-title">Connect a black clamp directly from the Esps GND to the pump and your're all set</span>
+    </div>
   </div>
 
   <div class="diy-step">
     <div class="step-number">3</div>
     <div class="step-content">
       <h3>Software Installation</h3>
+      <p>To build our project you must install the following software:</p>
+      <code class="code-block">
+       1. A IDE that works with Hardware: Clion or Visual Studio Code (recommended)<br><br>
+       2. PlatformIO extension for your IDE<br>
+        <a href="https://platformio.org/install/ide?install=vscode" target="_blank">PlatformIO for Visual Studio Code</a><br>
+        <a href="https://platformio.org/install/ide?install=clion" target="_blank">PlatformIO for CLion</a><br>
+
+        3. Install the ESP32 board support package in PlatformIO <br>
+        <a href="https://docs.platformio.org/en/latest/platforms/espressif32.html" target="_blank">PlatformIO ESP32 Board Support</a><br>
+
+      </code>
       <p>Clone our GitHub repository and upload the code to both ESP32s:</p>
       <code class="code-block">
         git clone https://github.com/water-broadcast/iot-project.git<br>
@@ -267,21 +395,9 @@
     </div>
   </div>
 
-  <div class="diy-step">
-    <div class="step-number">4</div>
-    <div class="step-content">
-      <h3>Pairing Devices</h3>
-      <ol>
-        <li>Power on both devices</li>
-        <li>Press the pairing button on both units simultaneously</li>
-        <li>Wait for the LED to turn solid green (indicates successful pairing)</li>
-        <li>Test the connection by watering one plant - the other should activate simultaneously</li>
-      </ol>
-    </div>
-  </div>
 
   <div class="diy-step">
-    <div class="step-number">5</div>
+    <div class="step-number">4</div>
     <div class="step-content">
       <h3>Final Installation</h3>
       <ul>
@@ -291,6 +407,19 @@
         <li>Secure all components in an enclosure</li>
         <li>Enjoy your connected watering system!</li>
       </ul>
+    </div>
+  </div>
+
+  <div class="diy-step">
+    <div class="step-number">5</div>
+    <div class="step-content">
+      <h3>How the finished system works</h3>
+      <p> Once your setup is finished you should have 2 identical hardware systems, one ESP32 flashed with the Flower1 code and one ESP32 flashed with the Flower2 code.
+      When you now water your own plant your friends plant, no matter how far away, will also get watered if its moisture detector detects its soil as dry. You now have a new way
+      of creating connection with your friend without having to take any extra time during your day.
+      If you are up for the challenge you can copy the system for all the plants in your household and share a plant watering chore and switch duty every week.
+      Even when your friend is on holiday you can take care of their Plants without having even to enter their apartment!</p>
+
     </div>
   </div>
 
