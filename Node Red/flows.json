@@ -1,255 +1,63 @@
 [
     {
-        "id": "e9881d959318802f",
-        "type": "tab",
-        "label": "Flow 3",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "623e333751e79b6f",
-        "type": "mqtt in",
+        "id": "e841e217d74c9467",
+        "type": "ui_dropdown",
         "z": "e9881d959318802f",
-        "name": "Subscriber PumpOn2",
-        "topic": "PumpOn2",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26605a32c92b77a7",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 240,
-        "y": 460,
-        "wires": [
-            [
-                "6aa7057bf50a960c"
-            ]
-        ]
-    },
-    {
-        "id": "6aa7057bf50a960c",
-        "type": "debug",
-        "z": "e9881d959318802f",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 440,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "06fe8abd0196c09a",
-        "type": "mqtt out",
-        "z": "e9881d959318802f",
-        "name": "Publisher PumpOn2",
-        "topic": "PumpOn2",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "26605a32c92b77a7",
-        "x": 660,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "59d97b0e3a812766",
-        "type": "mqtt in",
-        "z": "e9881d959318802f",
-        "name": "Subscriber PumpOn",
-        "topic": "PumpOn",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26605a32c92b77a7",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 230,
-        "y": 80,
-        "wires": [
-            [
-                "63b924868e9f09bd"
-            ]
-        ]
-    },
-    {
-        "id": "63b924868e9f09bd",
-        "type": "debug",
-        "z": "e9881d959318802f",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 440,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "6812552ccd276522",
-        "type": "mqtt out",
-        "z": "e9881d959318802f",
-        "name": "Publisher PumpOn",
-        "topic": "PumpOn",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "26605a32c92b77a7",
-        "x": 670,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "ddeeed65093342b6",
-        "type": "ui_button",
-        "z": "e9881d959318802f",
-        "name": "",
-        "group": "6a8c0161753368ae",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Activate Pump 1",
+        "name": "Dropdown Water Amount 2",
+        "label": "Pflanze 2",
         "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "Button Pressed",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 320,
-        "y": 200,
-        "wires": [
-            [
-                "2dbf3a177774f4ea"
-            ]
-        ]
-    },
-    {
-        "id": "2dbf3a177774f4ea",
-        "type": "function",
-        "z": "e9881d959318802f",
-        "name": "function 1",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 480,
-        "y": 200,
-        "wires": [
-            [
-                "6812552ccd276522"
-            ]
-        ]
-    },
-    {
-        "id": "b5fc52213e1946dc",
-        "type": "ui_button",
-        "z": "e9881d959318802f",
-        "name": "",
-        "group": "6a8c0161753368ae",
+        "place": "Select option",
+        "group": "f6e130fa977340c8",
         "order": 2,
         "width": 0,
         "height": 0,
-        "passthru": false,
-        "label": "Activate Pump 2",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "Button Pressed",
-        "payloadType": "str",
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Sehr Wenig Wasser",
+                "value": 1,
+                "type": "num"
+            },
+            {
+                "label": "Wenig Wasser",
+                "value": 2,
+                "type": "num"
+            },
+            {
+                "label": "Etwas Wasser",
+                "value": 3,
+                "type": "num"
+            },
+            {
+                "label": "Viel Wasser",
+                "value": 4,
+                "type": "num"
+            },
+            {
+                "label": "Sehr Viel Wasser",
+                "value": 5,
+                "type": "num"
+            }
+        ],
+        "payload": "",
         "topic": "topic",
         "topicType": "msg",
-        "x": 300,
-        "y": 580,
+        "className": "",
+        "x": 340,
+        "y": 1020,
         "wires": [
             [
-                "49394b9d21fb437b"
+                "b8e2adf89002cfe7"
             ]
         ]
     },
     {
-        "id": "49394b9d21fb437b",
-        "type": "function",
-        "z": "e9881d959318802f",
-        "name": "function 2",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 460,
-        "y": 580,
-        "wires": [
-            [
-                "06fe8abd0196c09a"
-            ]
-        ]
-    },
-    {
-        "id": "26605a32c92b77a7",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "broker.hivemq.com",
-        "port": 1883,
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": 4,
-        "keepalive": 60,
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
-        "id": "6a8c0161753368ae",
+        "id": "f6e130fa977340c8",
         "type": "ui_group",
-        "name": "Pumpen verwalten",
+        "name": "Wassermenge festlegen",
         "tab": "2c4ba265e22b1801",
-        "order": 1,
+        "order": 2,
         "disp": true,
         "width": 6,
         "collapse": false,
