@@ -30,7 +30,7 @@ We often pressure ourselves about not being able to fulfill all our social dutie
 
 ## Would you like to build our project yourself to connect with a longdistance friend?
 ### We have a DIY!
-- open our index.html through a browser of your choice and have a look at our step to step guid of your own Water Broadcast system. 
+- have a look at our [step by step guide](https://tibifant.github.io/waterbroadcast/) for your own Water Broadcast system. 
 
 
 
