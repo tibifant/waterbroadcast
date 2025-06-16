@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Water Broadcast</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+    <style>
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            font-size: 25px;
+            background-color: white;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            float: right;
+        }
+
+        nav li a {
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: #ddd;
+        }
+
+        .header-img-container {
+            position: relative;
+            width: 100vw;
+            height: auto;
+            overflow: hidden;
+        }
+
+        .header-img {
+            width: 100vw;
+            height: auto;
+            object-fit: cover;
+            display: block;
+        }
+        .header-top-left {
+            position: absolute;
+            right: 20px;
+            top: 60px;
+            color: white;
+            font-weight: bold;
+            font-size: 120px;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .header-title {
+            position: absolute;
+            left: 20px;
+            bottom: 40px;
+            color: white;
+           font-weight: bold;
+            font-size: 120px;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+        .sub-title {
+            position: absolute;
+            left: 30px;
+            bottom: 20px;
+            color: white;
+            font-weight: normal;
+            font-size: 40px;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+        .Introduction {
+
+            position: relative;
+            width: 1200px;
+            height: 600px;
+            color: black;
+            padding: 20px;
+            margin:120px 0 0 60px; /* Center horizontally, adjust top margin for navbar */
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            box-sizing: border-box;
+        }
+
+        .introduction-title {
+            font-weight: bold;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .introduction-text {
+            font-size: 24px;
+            font-weight: normal;
+            color: black;
+            padding: 0;
+            margin: 0;
+        }
+        footer{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            text-align: center;
+            padding: 5px 0;
+            z-index: 1000;
+        }
+
+    </style>
+  
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="diy.html">DIY</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="video.html">Video</a></li>
+    </ul>
+</nav>
+
+<div class="header-img-container">
+    <img src="photos/WaterBroadcast1.jpg" alt="Header Image" class="header-img">
+    <span class="header-top-left">AN IOT STUDENT PROJECT</span>
+    <span class="header-title">WATER BROADCAST</span>
+    <span class="sub-title">A New Way to Connect Friends over Distance</span>
+</div>
+
+<main>
+
+    <div class="Introduction">
+        <span class="introduction-title">INTRODUCTION</span>
+        <span class="introduction-text">The project "Water Broadcast" is a product of our IoT course with Matthias Böhmer and introduces a new way of connecting friends across distances.
+We were given the task to bridge the gap in friendships and quickly decided that our favorite way of connecting is through acts of service or kindness.
+Given that we’ve all sadly lost beloved plants due to negligence before, we decided to tackle that problem by creating a friendship-based watering system.
+Instead of sending a long message or making a time-consuming call, you can simply go about your day and water your friend’s plant by watering your own. Whether you live in different parts of a city or thousands of miles apart, a simple favor can make you feel deeply connected.
+We often pressure ourselves about not being able to fulfill all our social duties and expectations after a long day. What if staying connected doesn’t require additional effort but instead minimizes it by sharing a chore with a friend?</span>
+    </div>
+
+
+</main>
+
+<footer>
+
+    <p>&copy; 2025 TH Köln. Project by Malin Lindner, Lina Stawiarski and Emma Reeb All rights reserved.</p>
+</footer>
+
+</body>
+</html>
