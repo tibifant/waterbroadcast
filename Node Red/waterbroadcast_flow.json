@@ -1,0 +1,633 @@
+[
+    {
+        "id": "b5e4feae188862f6",
+        "type": "tab",
+        "label": "Waterbroadcast",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4e41a871791b4d75",
+        "type": "mqtt in",
+        "z": "b5e4feae188862f6",
+        "name": "Subscriber Activate Pump 2",
+        "topic": "activate_pump2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26605a32c92b77a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 600,
+        "wires": [
+            [
+                "669acfbc855862a6"
+            ]
+        ]
+    },
+    {
+        "id": "669acfbc855862a6",
+        "type": "debug",
+        "z": "b5e4feae188862f6",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "77af9b39b62ab7a6",
+        "type": "mqtt out",
+        "z": "b5e4feae188862f6",
+        "name": "Publisher Activate Pump 2",
+        "topic": "activate_pump2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26605a32c92b77a7",
+        "x": 680,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "c4a06cc0be251fad",
+        "type": "mqtt in",
+        "z": "b5e4feae188862f6",
+        "name": "Subscriber Activate Pump 1",
+        "topic": "activate_pump1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26605a32c92b77a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 80,
+        "wires": [
+            [
+                "a70d53f66026caf9"
+            ]
+        ]
+    },
+    {
+        "id": "a70d53f66026caf9",
+        "type": "debug",
+        "z": "b5e4feae188862f6",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "5ceb3ae1c1cb4bf5",
+        "type": "mqtt out",
+        "z": "b5e4feae188862f6",
+        "name": "Publisher Activate Pump 1",
+        "topic": "activate_pump1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26605a32c92b77a7",
+        "x": 700,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "63b1450ce9c2bf1a",
+        "type": "function",
+        "z": "b5e4feae188862f6",
+        "name": "function 1",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 200,
+        "wires": [
+            [
+                "5ceb3ae1c1cb4bf5"
+            ]
+        ]
+    },
+    {
+        "id": "1609eb24709c3e9e",
+        "type": "function",
+        "z": "b5e4feae188862f6",
+        "name": "function 2",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 720,
+        "wires": [
+            [
+                "77af9b39b62ab7a6"
+            ]
+        ]
+    },
+    {
+        "id": "b128647e89c7e8f8",
+        "type": "ui_button",
+        "z": "b5e4feae188862f6",
+        "name": "",
+        "group": "6a8c0161753368ae",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Activate Pump 1",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Button Pressed",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "63b1450ce9c2bf1a"
+            ]
+        ]
+    },
+    {
+        "id": "c629d9da6774d087",
+        "type": "ui_button",
+        "z": "b5e4feae188862f6",
+        "name": "",
+        "group": "6a8c0161753368ae",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Activate Pump 2",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Button Pressed",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 300,
+        "y": 720,
+        "wires": [
+            [
+                "1609eb24709c3e9e"
+            ]
+        ]
+    },
+    {
+        "id": "de47273b4c79615d",
+        "type": "mqtt in",
+        "z": "b5e4feae188862f6",
+        "name": "Subscriber Status Flower 1",
+        "topic": "status_flower1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26605a32c92b77a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 300,
+        "wires": [
+            [
+                "825b7baeaa729e51"
+            ]
+        ]
+    },
+    {
+        "id": "825b7baeaa729e51",
+        "type": "debug",
+        "z": "b5e4feae188862f6",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "45fd4793fad09768",
+        "type": "mqtt in",
+        "z": "b5e4feae188862f6",
+        "name": "Subscriber Status Flower 2",
+        "topic": "status_flower2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26605a32c92b77a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 820,
+        "wires": [
+            [
+                "ce92be2f50c27e36"
+            ]
+        ]
+    },
+    {
+        "id": "ce92be2f50c27e36",
+        "type": "debug",
+        "z": "b5e4feae188862f6",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "5cd7bc3c4c060f97",
+        "type": "mqtt out",
+        "z": "b5e4feae188862f6",
+        "name": "Publisher Status Flower 1",
+        "topic": "status_flower1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26605a32c92b77a7",
+        "x": 690,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "c5c3bdf12bac2f50",
+        "type": "mqtt out",
+        "z": "b5e4feae188862f6",
+        "name": "Publisher Status Flower 2",
+        "topic": "status_flower2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26605a32c92b77a7",
+        "x": 670,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "218935c4dfc4f3c8",
+        "type": "mqtt out",
+        "z": "b5e4feae188862f6",
+        "name": "Publisher Watering Time 1",
+        "topic": "watering_time1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26605a32c92b77a7",
+        "x": 780,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "c0039234723f2ec1",
+        "type": "function",
+        "z": "b5e4feae188862f6",
+        "name": "function 3",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 480,
+        "wires": [
+            [
+                "218935c4dfc4f3c8"
+            ]
+        ]
+    },
+    {
+        "id": "ceb8f6c7b669cabd",
+        "type": "mqtt in",
+        "z": "b5e4feae188862f6",
+        "name": "Subscriber Watering Time 1",
+        "topic": "watering_time1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26605a32c92b77a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 420,
+        "wires": [
+            [
+                "ab282f82956b6a7b"
+            ]
+        ]
+    },
+    {
+        "id": "ab282f82956b6a7b",
+        "type": "debug",
+        "z": "b5e4feae188862f6",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "e2dc2bb87bfb9f39",
+        "type": "mqtt out",
+        "z": "b5e4feae188862f6",
+        "name": "Publisher Watering Time 2",
+        "topic": "watering_time2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26605a32c92b77a7",
+        "x": 760,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "4f53f7dae4d4a9dc",
+        "type": "function",
+        "z": "b5e4feae188862f6",
+        "name": "function 4",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 1020,
+        "wires": [
+            [
+                "e2dc2bb87bfb9f39"
+            ]
+        ]
+    },
+    {
+        "id": "45ff886de0d4ac77",
+        "type": "mqtt in",
+        "z": "b5e4feae188862f6",
+        "name": "Subscriber Watering Time 2",
+        "topic": "watering_time2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26605a32c92b77a7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 960,
+        "wires": [
+            [
+                "326eb63fdf9f2e02"
+            ]
+        ]
+    },
+    {
+        "id": "326eb63fdf9f2e02",
+        "type": "debug",
+        "z": "b5e4feae188862f6",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "c49fa3967bca0e96",
+        "type": "ui_dropdown",
+        "z": "b5e4feae188862f6",
+        "name": "Dropdown Water Amount 1",
+        "label": "Wassermenge",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "6a8c0161753368ae",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Sehr Wenig Wasser",
+                "value": 1,
+                "type": "num"
+            },
+            {
+                "label": "Wenig Wasser",
+                "value": 2,
+                "type": "num"
+            },
+            {
+                "label": "Etwas Wasser",
+                "value": 3,
+                "type": "num"
+            },
+            {
+                "label": "Viel Wasser",
+                "value": 4,
+                "type": "num"
+            },
+            {
+                "label": "Sehr Viel Wasser",
+                "value": 5,
+                "type": "num"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 360,
+        "y": 480,
+        "wires": [
+            [
+                "c0039234723f2ec1"
+            ]
+        ]
+    },
+    {
+        "id": "b3b63e8c90d91d44",
+        "type": "ui_dropdown",
+        "z": "b5e4feae188862f6",
+        "name": "Dropdown Water Amount 2",
+        "label": "Wassermenge",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "6a8c0161753368ae",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Sehr Wenig Wasser",
+                "value": 1,
+                "type": "num"
+            },
+            {
+                "label": "Wenig Wasser",
+                "value": 2,
+                "type": "num"
+            },
+            {
+                "label": "Etwas Wasser",
+                "value": 3,
+                "type": "num"
+            },
+            {
+                "label": "Viel Wasser",
+                "value": 4,
+                "type": "num"
+            },
+            {
+                "label": "Sehr Viel Wasser",
+                "value": 5,
+                "type": "num"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 320,
+        "y": 1020,
+        "wires": [
+            [
+                "4f53f7dae4d4a9dc"
+            ]
+        ]
+    },
+    {
+        "id": "26605a32c92b77a7",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6a8c0161753368ae",
+        "type": "ui_group",
+        "name": "Pumpen verwalten",
+        "tab": "2c4ba265e22b1801",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2c4ba265e22b1801",
+        "type": "ui_tab",
+        "name": "Freundschaft durch die Blume",
+        "icon": "wi-wu-sunny",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
