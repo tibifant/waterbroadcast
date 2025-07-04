@@ -391,7 +391,7 @@
         cd iot-project<br>
         pio run --environment flower[1 | 2] --target upload
       </code>
-      <p>Configure the WiFi credentials in the config.h file</p>
+      <p>Configure the WiFi credentials by connecting to "AutoConnectAP" with another device (pw: flowerpower) and choosing the WiFi the System should connect to.</p>
     </div>
   </div>
 
@@ -419,6 +419,24 @@
       of creating connection with your friend without having to take any extra time during your day.
       If you are up for the challenge you can copy the system for all the plants in your household and share a plant watering chore and switch duty every week.
       Even when your friend is on holiday you can take care of their Plants without having even to enter their apartment!</p>
+
+    </div>
+  </div>
+  
+  <div class="diy-step">
+    <div class="step-number">6</div>
+    <div class="step-content">
+      <h3>Optional: Connection and Configureation via Node Red</h3>
+      <p>Install Node Red and the dashboard package:</p>
+      <code class="code-block">
+        npm install -g --unsafe-perm node-red<br>
+        npm i node-red-dashboard
+      </code>
+      <p>Start Node Red:</p>
+      <code class="code-block">
+        node-red
+      </code>
+      <p>Open http://127.0.0.1:1880/ in your browser and navigate through the menu to `Import` > `Clipboard` > `Choose file for upload` and upload `flows.json` from the `Node Red` folder of this repository.</p>
 
     </div>
   </div>
