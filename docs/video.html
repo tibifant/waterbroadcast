@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DIY Water Broadcast System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+          rel="stylesheet">
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        nav {
+            font-size: 25px;
+            background-color: white;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            float: right;
+        }
+
+        nav li a {
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: #ddd;
+        }
+
+        .hardness-level {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 100px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stars {
+            color: #f5b301;
+            letter-spacing: 2px;
+            font-size: 50px;
+        }
+
+        .diy-section {
+            margin: 60px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+            background-color: white;
+            font-weight: normal;
+            font-size: 18px;
+
+
+        }
+
+        .diy-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: black;
+        }
+
+        .diy-step {
+            display: flex;
+            margin-bottom: 5px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            margin-right: 20px;
+            background-color: #f0f0f0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+        }
+
+
+        .step-content h3 {
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+
+
+        .image-step img {
+            width: 400px;
+            object-fit: contain;
+            display: block;
+        }
+
+
+
+        .videoplacement {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .videoanddescription {
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="diy.html">DIY</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="video.html">Video</a></li>
+    </ul>
+</nav>
+
+<div class="diy-section">
+    <div class="diy-title">VIDEO</div>
+    <div class="videoplacement">
+        <div class="step-number">
+            <span>1</span>
+        </div>
+    <div class="videoanddescription">
+        <div class="dyi-step h3">Here is a short video demonstrating how the DIY water transfer system works:</div>
+        <video width="640" height="360" controls>
+            <source src="photos/DemoVideo.mp4" type="video/mp4">
+            Dein Browser unterstützt das Video-Tag nicht.
+        </video>
+    </div>
+        <div class="step-number">
+            <span>2</span>
+        </div>
+    <div class="videoanddescription">
+        <div class="diy-step h3"> Here is a short video demonstrating how the DIY water transfer works with Node Red:
+        </div>
+        <video width="640" height="360" controls>
+            <source src="photos/NodeRedVideo.mp4" type="video/mp4">
+            Dein Browser unterstützt das Video-Tag nicht.
+        </video>
+    </div>
+    </div>
+</div>
+
+<div>
+
+</div>
+
+</body>
+</html>
