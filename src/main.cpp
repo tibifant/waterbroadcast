@@ -100,7 +100,14 @@ void connectToWLAN() {
 
 void taskPump(void *parameter) {
   while (true) {
-    if (triggerPump) {
+    bool pumpShouldTrigger;
+
+    if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+      pumpShouldTrigger = triggerPump;
+      xSemaphoreGive(xMutex);
+    }
+
+    if (pumpShouldTrigger) {
       digitalWrite(pumpPin, HIGH);
 
       if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
@@ -141,14 +148,15 @@ void taskPublish(void *parameter) {
       currentStatus = st_wet;
 
       if (sensorValue > wateredThreshold) {
-        if (!watered) {
-          client.publish(pumpPublisherTopic, "Friend Watered");
+        if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
+          if (!watered) {
+            client.publish(pumpPublisherTopic, "Friend Watered");
 
-          if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {
-              Serial.println("Watering Publisher was triggered");
+            Serial.println("Watering Publisher was triggered");
             watered = true;
-            xSemaphoreGive(xMutex);
           }
+          
+          xSemaphoreGive(xMutex);
         }
       }
     }
