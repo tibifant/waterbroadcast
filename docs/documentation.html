@@ -11,7 +11,9 @@
 
 
 
-    <style> body {
+    <style>
+
+        body {
         font-family: 'DM Sans', sans-serif;
         margin: 0;
         padding: 0;
@@ -46,7 +48,28 @@
 
     nav li a:hover {
         background-color: #ddd;
-    }</style>
+    }
+        .documentation-link {
+            display: inline-block;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 22px;
+            color: white;
+            background-color: #0077cc;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+        .documentation-link:hover {
+            background-color: #005fa3;
+            color: #fff;
+        }
+
+
+
+    </style>
 </head>
 <body>
 <nav>
@@ -58,6 +81,10 @@
         <li><a href="video.html">Video</a></li>
     </ul>
 </nav>
-
+<div class="Documentation-link-container">
+    <h1>Documentation</h1>
+    <p>For more information about the project, please refer to the following documentation:</p>
+    <a class="documentation-link" href="https://th-koeln.sciebo.de/apps/onlyoffice/s/7RfrCeWJfAs0iOU?fileId=941642759" target="_blank">Documentation</a>
+</div>
 </body>
 </html>
