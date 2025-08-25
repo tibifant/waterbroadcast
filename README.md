@@ -1,6 +1,11 @@
 # Water Broadcast  
 *Take care of your friends plant, even when miles apart.*  
 
+Please visit our website for a thourough DIY and further information regarding our project.
+
+https://tibifant.github.io/waterbroadcast/
+
+
 ## 📌 Overview  
 
 The project "Water Broadcast" is a product of our IoT course with Matthias Böhmer and introduces a new way of connecting friends across distances.
